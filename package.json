@@ -7,6 +7,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
+    "typecheck": "tsc -b",
     "lint": "eslint",
     "format": "prettier",
     "check": "prettier --write . && eslint --fix",

@@ -10,7 +10,16 @@ This is a sandbox project for experimenting with TanStack libraries (Router, Que
 - **Components**: UI components from shadcn/ui in `src/components/ui/`, custom components in `src/components/`.
 - **Styling**: Tailwind CSS with custom CSS variables, utilities in `src/lib/utils.ts` using `cn()` for class merging.
 - **Build**: Vite with TanStack Start plugin for SSR/full-stack, Nitro for server-side rendering.
-- **Refs**: Downloaded source code of TanStack libraries and shadcn in `refs/` for reference.
+- **Refs**: Downloaded source code of TanStack libraries, shadcn, and Base UI in `refs/` for reference.
+
+### Reference Docs Locations
+
+- **TanStack Router**: `refs/tan-router/docs/` (Markdown files)
+- **TanStack Start**: `refs/tan-start/docs/` (Markdown files)
+- **TanStack Query**: `refs/tan-query/docs/` (Markdown files)
+- **TanStack Form**: `refs/tan-form/docs/` (Markdown files)
+- **Shadcn UI**: `refs/shadcn/apps/www/content/docs/` (MDX files)
+- **Base UI**: `refs/base-ui/docs/src/app/(docs)/(content)/react/` (MDX files in subdirs)
 
 ## Key Patterns
 
