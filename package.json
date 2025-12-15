@@ -13,13 +13,21 @@
     "clean": "pnpm clean:node && pnpm clean:wrangler && pnpm clean:etc",
     "clean:node": "rm -rf node_modules",
     "clean:wrangler": "rm -rf .wrangler",
-    "clean:etc": "rm -rf .tanstack build dist"
+    "clean:etc": "rm -rf .tanstack build dist",
+    "refs:shadcn": "rm -rf refs/shadcn && mkdir -p refs/shadcn && curl -L https://github.com/shadcn-ui/ui/archive/refs/tags/shadcn-ui@0.9.4.tar.gz | tar -xz -C refs/shadcn --strip-components=1",
+    "refs:tan-router": "rm -rf refs/tan-router && mkdir -p refs/tan-router && curl -L https://github.com/TanStack/router/archive/refs/tags/v1.141.2.tar.gz | tar -xz -C refs/tan-router --strip-components=1",
+    "refs:tan-start": "rm -rf refs/tan-start && mkdir -p refs/tan-start && curl -L https://github.com/TanStack/router/archive/refs/tags/v1.141.3.tar.gz | tar -xz -C refs/tan-start --strip-components=1",
+    "refs:tan-form": "rm -rf refs/tan-form && mkdir -p refs/tan-form && curl -L https://github.com/TanStack/form/archive/refs/tags/@tanstack/react-form@1.27.4.tar.gz | tar -xz -C refs/tan-form --strip-components=1",
+    "refs:tan-query": "rm -rf refs/tan-query && mkdir -p refs/tan-query && curl -L https://github.com/TanStack/query/archive/refs/tags/@tanstack/react-query@5.90.12.tar.gz | tar -xz -C refs/tan-query --strip-components=1",
+    "refs:base-ui": "rm -rf refs/base-ui && mkdir -p refs/base-ui && curl -L https://github.com/mui/base-ui/archive/refs/tags/v1.0.0.tar.gz | tar -xz -C refs/base-ui --strip-components=1"
   },
   "dependencies": {
     "@base-ui/react": "1.0.0",
     "@fontsource-variable/inter": "^5.2.8",
     "@tailwindcss/vite": "^4.0.6",
     "@tanstack/react-devtools": "0.8.4",
+    "@tanstack/react-form": "1.27.4",
+    "@tanstack/react-query": "5.90.12",
     "@tanstack/react-router": "1.141.2",
     "@tanstack/react-router-devtools": "1.141.2",
     "@tanstack/react-router-ssr-query": "^1.131.7",
@@ -58,7 +66,7 @@
     "@vitejs/plugin-react": "^5.0.4",
     "jsdom": "^27.0.0",
     "prettier": "^3.5.3",
-    "typescript": "^5.7.2",
+    "typescript": "5.9.3",
     "vite": "^7.1.7",
     "vitest": "^3.0.5",
     "web-vitals": "^5.1.0"
