@@ -9,104 +9,134 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ExampleRouteImport } from './routes/example'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as PlayForm1RouteImport } from './routes/play.form1'
-import { Route as PlayFormRouteImport } from './routes/play.form'
+import { Route as LayoutRouteImport } from './routes/_layout'
+import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
+import { Route as LayoutForm1RouteImport } from './routes/_layout.form1'
+import { Route as LayoutFormRouteImport } from './routes/_layout.form'
+import { Route as LayoutExampleRouteImport } from './routes/_layout.example'
 
-const ExampleRoute = ExampleRouteImport.update({
-  id: '/example',
-  path: '/example',
+const LayoutRoute = LayoutRouteImport.update({
+  id: '/_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const LayoutIndexRoute = LayoutIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => LayoutRoute,
 } as any)
-const PlayForm1Route = PlayForm1RouteImport.update({
-  id: '/play/form1',
-  path: '/play/form1',
-  getParentRoute: () => rootRouteImport,
+const LayoutForm1Route = LayoutForm1RouteImport.update({
+  id: '/form1',
+  path: '/form1',
+  getParentRoute: () => LayoutRoute,
 } as any)
-const PlayFormRoute = PlayFormRouteImport.update({
-  id: '/play/form',
-  path: '/play/form',
-  getParentRoute: () => rootRouteImport,
+const LayoutFormRoute = LayoutFormRouteImport.update({
+  id: '/form',
+  path: '/form',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutExampleRoute = LayoutExampleRouteImport.update({
+  id: '/example',
+  path: '/example',
+  getParentRoute: () => LayoutRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/example': typeof ExampleRoute
-  '/play/form': typeof PlayFormRoute
-  '/play/form1': typeof PlayForm1Route
+  '/example': typeof LayoutExampleRoute
+  '/form': typeof LayoutFormRoute
+  '/form1': typeof LayoutForm1Route
+  '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/example': typeof ExampleRoute
-  '/play/form': typeof PlayFormRoute
-  '/play/form1': typeof PlayForm1Route
+  '/example': typeof LayoutExampleRoute
+  '/form': typeof LayoutFormRoute
+  '/form1': typeof LayoutForm1Route
+  '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/example': typeof ExampleRoute
-  '/play/form': typeof PlayFormRoute
-  '/play/form1': typeof PlayForm1Route
+  '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/example': typeof LayoutExampleRoute
+  '/_layout/form': typeof LayoutFormRoute
+  '/_layout/form1': typeof LayoutForm1Route
+  '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/example' | '/play/form' | '/play/form1'
+  fullPaths: '/example' | '/form' | '/form1' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/example' | '/play/form' | '/play/form1'
-  id: '__root__' | '/' | '/example' | '/play/form' | '/play/form1'
+  to: '/example' | '/form' | '/form1' | '/'
+  id:
+    | '__root__'
+    | '/_layout'
+    | '/_layout/example'
+    | '/_layout/form'
+    | '/_layout/form1'
+    | '/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  ExampleRoute: typeof ExampleRoute
-  PlayFormRoute: typeof PlayFormRoute
-  PlayForm1Route: typeof PlayForm1Route
+  LayoutRoute: typeof LayoutRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/example': {
-      id: '/example'
-      path: '/example'
-      fullPath: '/example'
-      preLoaderRoute: typeof ExampleRouteImport
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_layout/': {
+      id: '/_layout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof LayoutIndexRouteImport
+      parentRoute: typeof LayoutRoute
     }
-    '/play/form1': {
-      id: '/play/form1'
-      path: '/play/form1'
-      fullPath: '/play/form1'
-      preLoaderRoute: typeof PlayForm1RouteImport
-      parentRoute: typeof rootRouteImport
+    '/_layout/form1': {
+      id: '/_layout/form1'
+      path: '/form1'
+      fullPath: '/form1'
+      preLoaderRoute: typeof LayoutForm1RouteImport
+      parentRoute: typeof LayoutRoute
     }
-    '/play/form': {
-      id: '/play/form'
-      path: '/play/form'
-      fullPath: '/play/form'
-      preLoaderRoute: typeof PlayFormRouteImport
-      parentRoute: typeof rootRouteImport
+    '/_layout/form': {
+      id: '/_layout/form'
+      path: '/form'
+      fullPath: '/form'
+      preLoaderRoute: typeof LayoutFormRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/example': {
+      id: '/_layout/example'
+      path: '/example'
+      fullPath: '/example'
+      preLoaderRoute: typeof LayoutExampleRouteImport
+      parentRoute: typeof LayoutRoute
     }
   }
 }
 
+interface LayoutRouteChildren {
+  LayoutExampleRoute: typeof LayoutExampleRoute
+  LayoutFormRoute: typeof LayoutFormRoute
+  LayoutForm1Route: typeof LayoutForm1Route
+  LayoutIndexRoute: typeof LayoutIndexRoute
+}
+
+const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutExampleRoute: LayoutExampleRoute,
+  LayoutFormRoute: LayoutFormRoute,
+  LayoutForm1Route: LayoutForm1Route,
+  LayoutIndexRoute: LayoutIndexRoute,
+}
+
+const LayoutRouteWithChildren =
+  LayoutRoute._addFileChildren(LayoutRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  ExampleRoute: ExampleRoute,
-  PlayFormRoute: PlayFormRoute,
-  PlayForm1Route: PlayForm1Route,
+  LayoutRoute: LayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

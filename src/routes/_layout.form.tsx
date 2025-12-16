@@ -29,7 +29,7 @@ import {
   InputGroupTextarea,
 } from '@/components/ui/input-group'
 
-export const Route = createFileRoute('/play/form')({
+export const Route = createFileRoute('/_layout/form')({
   component: RouteComponent,
 })
 
