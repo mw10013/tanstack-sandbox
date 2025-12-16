@@ -6,9 +6,7 @@ import { toast } from 'sonner'
 import * as z from 'zod'
 
 import { createServerFn } from '@tanstack/react-start'
-import {
-  getFormData,
-} from '@tanstack/react-form-start'
+import { getFormData } from '@tanstack/react-form-start'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -34,9 +32,7 @@ import {
 } from '@/components/ui/input-group'
 
 export const getFormDataFromServer = createServerFn({ method: 'GET' }).handler(
-  () => {
-    return getFormData()
-  },
+  getFormData,
 )
 
 export const Route = createFileRoute('/_layout/form1')({

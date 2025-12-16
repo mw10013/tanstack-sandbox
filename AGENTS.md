@@ -1,8 +1,12 @@
-# Copilot Instructions for TanStack Sandbox
+# AGENTS.md
 
 ## Overview
 
-This is a sandbox project for experimenting with TanStack libraries (Router, Query, Form, Start) integrated with shadcn/ui components, built using Vite, React 19, TypeScript, and Tailwind CSS v4.
+This is a sandbox project for experimenting with TanStack libraries (Router, Query, Form, Start) integrated with shadcn/ui components using BAse UI, built using Vite, React 19, TypeScript, and Tailwind CSS v4.
+
+- Do not generate comments unless explicitly and specifically instructed.
+- Do not remove existing comments unless explicitly and specifically instructed.
+- Your training date is in the past, so you need to always check #context7 to read relevant documentation.
 
 ## Architecture
 
@@ -48,6 +52,19 @@ This is a sandbox project for experimenting with TanStack libraries (Router, Que
 
 - TanStack Start: Full-stack framework with SSR.
 - Shadcn/ui: Base-vega style, CSS variables in `src/styles.css`.
+  - Using Shadcn/ui with Base UI instead of Radix UI. 
+  - Since Base UI does not support `asChild`, use its `render` prop instead.
 - External deps: Lucide icons, date-fns, recharts, etc.
 
 Reference: `package.json` for scripts, `vite.config.ts` for build config, `components.json` for shadcn setup.</content>
+
+## TypeScript Guidelines
+
+- Always follow functional programming principles
+- Use interfaces for data structures and type definitions
+- Prefer immutable data (const, readonly)
+- Use optional chaining (?.) and nullish coalescing (??) operators
+- **Do not add any comments to generated code.** Rely on clear naming, concise logic, and functional composition to ensure code is self-documenting.
+- Employ a concise and dense coding style. Prefer inlining expressions, function composition (e.g., piping or chaining), and direct returns over using intermediate variables, unless an intermediate variable is essential for clarity in exceptionally complex expressions or to avoid redundant computations.
+- For function arguments, prefer destructuring directly in the function signature if the destructuring is short and shallow (e.g., `({ data: { value }, otherArg })`). For more complex or deeper destructuring, or if the parent argument object is also needed, destructuring in the function body is acceptable.
+
