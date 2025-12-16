@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ExampleRouteImport } from './routes/example'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PlayForm1RouteImport } from './routes/play.form1'
 import { Route as PlayFormRouteImport } from './routes/play.form'
 
 const ExampleRoute = ExampleRouteImport.update({
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PlayForm1Route = PlayForm1RouteImport.update({
+  id: '/play/form1',
+  path: '/play/form1',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlayFormRoute = PlayFormRouteImport.update({
   id: '/play/form',
   path: '/play/form',
@@ -33,30 +39,34 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/example': typeof ExampleRoute
   '/play/form': typeof PlayFormRoute
+  '/play/form1': typeof PlayForm1Route
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/example': typeof ExampleRoute
   '/play/form': typeof PlayFormRoute
+  '/play/form1': typeof PlayForm1Route
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/example': typeof ExampleRoute
   '/play/form': typeof PlayFormRoute
+  '/play/form1': typeof PlayForm1Route
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/example' | '/play/form'
+  fullPaths: '/' | '/example' | '/play/form' | '/play/form1'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/example' | '/play/form'
-  id: '__root__' | '/' | '/example' | '/play/form'
+  to: '/' | '/example' | '/play/form' | '/play/form1'
+  id: '__root__' | '/' | '/example' | '/play/form' | '/play/form1'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ExampleRoute: typeof ExampleRoute
   PlayFormRoute: typeof PlayFormRoute
+  PlayForm1Route: typeof PlayForm1Route
 }
 
 declare module '@tanstack/react-router' {
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/play/form1': {
+      id: '/play/form1'
+      path: '/play/form1'
+      fullPath: '/play/form1'
+      preLoaderRoute: typeof PlayForm1RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/form': {
       id: '/play/form'
       path: '/play/form'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ExampleRoute: ExampleRoute,
   PlayFormRoute: PlayFormRoute,
+  PlayForm1Route: PlayForm1Route,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

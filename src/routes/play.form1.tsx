@@ -29,22 +29,22 @@ import {
   InputGroupTextarea,
 } from '@/components/ui/input-group'
 
-export const Route = createFileRoute('/play/form')({
+export const Route = createFileRoute('/play/form1')({
   component: RouteComponent,
 })
 
-function RouteComponent() {
-  const formSchema = z.object({
-    title: z
-      .string()
-      .min(5, 'Bug title must be at least 5 characters.')
-      .max(32, 'Bug title must be at most 32 characters.'),
-    description: z
-      .string()
-      .min(20, 'Description must be at least 20 characters.')
-      .max(100, 'Description must be at most 100 characters.'),
-  })
+const formSchema = z.object({
+  title: z
+    .string()
+    .min(5, 'Bug title must be at least 5 characters.')
+    .max(32, 'Bug title must be at most 32 characters.'),
+  description: z
+    .string()
+    .min(20, 'Description must be at least 20 characters.')
+    .max(100, 'Description must be at most 100 characters.'),
+})
 
+function RouteComponent() {
   const form = useForm({
     defaultValues: {
       title: '',
@@ -53,7 +53,7 @@ function RouteComponent() {
     validators: {
       onSubmit: formSchema,
     },
-    onSubmit: ({ value }) => {
+    onSubmit: async ({ value }) => {
       toast('You submitted the following values:', {
         description: (
           <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
