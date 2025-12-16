@@ -35,25 +35,25 @@ function Layout() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton
-                      isActive={!!matchRoute({ to: '/' })}
+                      isActive={Boolean(matchRoute({ to: '/' }))}
                       render={<Link to="/">Home</Link>}
                     />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
-                      isActive={!!matchRoute({ to: '/example' })}
+                      isActive={Boolean(matchRoute({ to: '/example' }))}
                       render={<Link to="/example">Example</Link>}
                     />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
-                      isActive={!!matchRoute({ to: '/form' })}
+                      isActive={Boolean(matchRoute({ to: '/form' }))}
                       render={<Link to="/form">Form</Link>}
                     />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
-                      isActive={!!matchRoute({ to: '/form1' })}
+                      isActive={Boolean(matchRoute({ to: '/form1' }))}
                       render={<Link to="/form1">Form 1</Link>}
                     />
                   </SidebarMenuItem>
