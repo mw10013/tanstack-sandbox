@@ -5,6 +5,10 @@ import { useForm } from '@tanstack/react-form'
 import { toast } from 'sonner'
 import * as z from 'zod'
 
+import { createServerFn } from '@tanstack/react-start'
+import {
+  getFormData,
+} from '@tanstack/react-form-start'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -29,22 +33,33 @@ import {
   InputGroupTextarea,
 } from '@/components/ui/input-group'
 
+export const getFormDataFromServer = createServerFn({ method: 'GET' }).handler(
+  () => {
+    return getFormData()
+  },
+)
+
 export const Route = createFileRoute('/_layout/form1')({
   component: RouteComponent,
-})
-
-const formSchema = z.object({
-  title: z
-    .string()
-    .min(5, 'Bug title must be at least 5 characters.')
-    .max(32, 'Bug title must be at most 32 characters.'),
-  description: z
-    .string()
-    .min(20, 'Description must be at least 20 characters.')
-    .max(100, 'Description must be at most 100 characters.'),
+  loader: async () => ({
+    state: await getFormDataFromServer(),
+  }),
 })
 
 function RouteComponent() {
+  const { state } = Route.useLoaderData()
+
+  const formSchema = z.object({
+    title: z
+      .string()
+      .min(5, 'Bug title must be at least 5 characters.')
+      .max(32, 'Bug title must be at most 32 characters.'),
+    description: z
+      .string()
+      .min(20, 'Description must be at least 20 characters.')
+      .max(100, 'Description must be at most 100 characters.'),
+  })
+
   const form = useForm({
     defaultValues: {
       title: '',
@@ -56,7 +71,7 @@ function RouteComponent() {
     onSubmit: ({ value }) => {
       toast('You submitted the following values:', {
         description: (
-          <pre className="bg-code text-code-foreground mt-2 w-[320px] overflow-x-auto rounded-md p-4">
+          <pre className="mt-2 w-[320px] overflow-x-auto rounded-md p-4">
             <code>{JSON.stringify(value, null, 2)}</code>
           </pre>
         ),
@@ -76,8 +91,9 @@ function RouteComponent() {
       <Card className="w-full sm:max-w-md mx-auto">
         <CardHeader>
           <CardTitle>Bug Report</CardTitle>
-          <CardDescription>
+          <CardDescription className="grid gap-2">
             Help us improve by reporting bugs you encounter.
+            <pre>{JSON.stringify(state, null, 2)}</pre>
           </CardDescription>
         </CardHeader>
         <CardContent>
