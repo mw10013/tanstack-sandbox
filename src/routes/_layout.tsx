@@ -1,8 +1,8 @@
 import {
+  Link,
   Outlet,
   createFileRoute,
   useLocation,
-  useNavigate,
 } from '@tanstack/react-router'
 import {
   Sidebar,
@@ -23,7 +23,6 @@ export const Route = createFileRoute('/_layout')({
 
 function Layout() {
   const location = useLocation()
-  const navigate = useNavigate()
 
   return (
     <SidebarProvider>
@@ -37,34 +36,26 @@ function Layout() {
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       isActive={location.pathname === '/'}
-                      onClick={() => navigate({ to: '/' })}
-                    >
-                      Home
-                    </SidebarMenuButton>
+                      render={<Link to="/">Home</Link>}
+                    />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       isActive={location.pathname === '/example'}
-                      onClick={() => navigate({ to: '/example' })}
-                    >
-                      Example
-                    </SidebarMenuButton>
+                      render={<Link to="/example">Example</Link>}
+                    />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       isActive={location.pathname === '/form'}
-                      onClick={() => navigate({ to: '/form' })}
-                    >
-                      Form
-                    </SidebarMenuButton>
+                      render={<Link to="/form">Form</Link>}
+                    />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
                       isActive={location.pathname === '/form1'}
-                      onClick={() => navigate({ to: '/form1' })}
-                    >
-                      Form 1
-                    </SidebarMenuButton>
+                      render={<Link to="/form1">Form 1</Link>}
+                    />
                   </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
