@@ -2,7 +2,7 @@ import {
   Link,
   Outlet,
   createFileRoute,
-  useLocation,
+  useMatchRoute,
 } from '@tanstack/react-router'
 import {
   Sidebar,
@@ -22,7 +22,7 @@ export const Route = createFileRoute('/_layout')({
 })
 
 function Layout() {
-  const location = useLocation()
+  const matchRoute = useMatchRoute()
 
   return (
     <SidebarProvider>
@@ -35,25 +35,25 @@ function Layout() {
                 <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton
-                      isActive={location.pathname === '/'}
+                      isActive={!!matchRoute({ to: '/' })}
                       render={<Link to="/">Home</Link>}
                     />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
-                      isActive={location.pathname === '/example'}
+                      isActive={!!matchRoute({ to: '/example' })}
                       render={<Link to="/example">Example</Link>}
                     />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
-                      isActive={location.pathname === '/form'}
+                      isActive={!!matchRoute({ to: '/form' })}
                       render={<Link to="/form">Form</Link>}
                     />
                   </SidebarMenuItem>
                   <SidebarMenuItem>
                     <SidebarMenuButton
-                      isActive={location.pathname === '/form1'}
+                      isActive={!!matchRoute({ to: '/form1' })}
                       render={<Link to="/form1">Form 1</Link>}
                     />
                   </SidebarMenuItem>
