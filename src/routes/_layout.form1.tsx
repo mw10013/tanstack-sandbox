@@ -31,9 +31,7 @@ import {
   InputGroupTextarea,
 } from '@/components/ui/input-group'
 
-export const getFormDataFromServer = createServerFn({ method: 'GET' }).handler(
-  getFormData,
-)
+export const getFormDataFromServer = createServerFn().handler(getFormData)
 
 export const Route = createFileRoute('/_layout/form1')({
   component: RouteComponent,
@@ -64,7 +62,7 @@ function RouteComponent() {
     validators: {
       onSubmit: formSchema,
     },
-    onSubmit: ({ value }) => {
+    onSubmit: async ({ value }) => {
       toast('You submitted the following values:', {
         description: (
           <pre className="mt-2 w-[320px] overflow-x-auto rounded-md p-4">
@@ -79,6 +77,8 @@ function RouteComponent() {
           '--border-radius': 'calc(var(--radius) + 4px)',
         } as React.CSSProperties,
       })
+      const data = await getFormDataFromServer()
+      console.log(`onSubmit: getFormDataFromServer: ${JSON.stringify(data)}`)
     },
   })
 
