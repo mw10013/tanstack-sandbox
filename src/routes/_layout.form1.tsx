@@ -1,12 +1,18 @@
 'use client'
 
 import { createFileRoute } from '@tanstack/react-router'
-import { useForm } from '@tanstack/react-form'
-import { toast } from 'sonner'
-import * as z from 'zod'
-
+import { mergeForm, useForm, useStore } from '@tanstack/react-form'
 import { createServerFn } from '@tanstack/react-start'
-import { getFormData } from '@tanstack/react-form-start'
+import {
+  ServerValidateError,
+  createServerValidate,
+  formOptions,
+  getFormData,
+  useTransform,
+} from '@tanstack/react-form-start'
+import { setResponseStatus } from '@tanstack/react-start/server'
+import { AlertCircleIcon } from 'lucide-react'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -18,18 +24,51 @@ import {
 } from '@/components/ui/card'
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  InputGroupTextarea,
-} from '@/components/ui/input-group'
+
+export const formOpts = formOptions({
+  defaultValues: {
+    firstName: '',
+    age: 0,
+  },
+})
+
+const serverValidate = createServerValidate({
+  ...formOpts,
+  onServerValidate: ({ value }) => {
+    if (value.age < 12) {
+      return 'Server validation: You must be at least 12 to sign up'
+    }
+  },
+})
+
+export const handleForm = createServerFn({
+  method: 'POST',
+})
+  .inputValidator((data: unknown) => {
+    if (!(data instanceof FormData)) {
+      throw new Error('Invalid form data')
+    }
+    return data
+  })
+  .handler(async (ctx) => {
+    try {
+      const validatedData = await serverValidate(ctx.data)
+      console.log('validatedData', validatedData)
+    } catch (e) {
+      if (e instanceof ServerValidateError) {
+        return e.response
+      }
+      console.error(e)
+      setResponseStatus(500)
+      return 'There was an internal error'
+    }
+    return 'Form has validated successfully'
+  })
 
 export const getFormDataFromServer = createServerFn().handler(getFormData)
 
@@ -43,81 +82,69 @@ export const Route = createFileRoute('/_layout/form1')({
 function RouteComponent() {
   const { state } = Route.useLoaderData()
 
-  const formSchema = z.object({
-    title: z
-      .string()
-      .min(5, 'Bug title must be at least 5 characters.')
-      .max(32, 'Bug title must be at most 32 characters.'),
-    description: z
-      .string()
-      .min(20, 'Description must be at least 20 characters.')
-      .max(100, 'Description must be at most 100 characters.'),
+  const form = useForm({
+    ...formOpts,
+    transform: useTransform((baseForm) => mergeForm(baseForm, state), [state]),
   })
 
-  const form = useForm({
-    defaultValues: {
-      title: '',
-      description: '',
-    },
-    validators: {
-      onSubmit: formSchema,
-    },
-    onSubmit: async ({ value }) => {
-      toast('You submitted the following values:', {
-        description: (
-          <pre className="mt-2 w-[320px] overflow-x-auto rounded-md p-4">
-            <code>{JSON.stringify(value, null, 2)}</code>
-          </pre>
-        ),
-        position: 'bottom-right',
-        classNames: {
-          content: 'flex flex-col gap-2',
-        },
-        style: {
-          '--border-radius': 'calc(var(--radius) + 4px)',
-        } as React.CSSProperties,
-      })
-      const data = await getFormDataFromServer()
-      console.log(`onSubmit: getFormDataFromServer: ${JSON.stringify(data)}`)
-    },
-  })
+  const formErrors = useStore(form.store, (formState) => formState.errors)
 
   return (
     <div className="p-6">
       <Card className="w-full sm:max-w-md mx-auto">
         <CardHeader>
-          <CardTitle>Bug Report</CardTitle>
+          <CardTitle>Age Check</CardTitle>
           <CardDescription className="grid gap-2">
-            Help us improve by reporting bugs you encounter.
-            <pre>{JSON.stringify(state, null, 2)}</pre>
+            We need to check your age before you can proceed.
+            {/* <pre>
+              {JSON.stringify(
+                { action: handleForm.url, formErrors, state },
+                null,
+                2,
+              )}
+            </pre> */}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form
-            id="bug-report-form"
-            onSubmit={(e) => {
-              e.preventDefault()
-              form.handleSubmit()
-            }}
+            id="age-check-form"
+            action={handleForm.url}
+            method="post"
+            encType={'multipart/form-data'}
           >
             <FieldGroup>
+              {formErrors.length > 0 && (
+                <Alert variant="destructive">
+                  <AlertCircleIcon />
+                  <AlertTitle>Unable to verify your age.</AlertTitle>
+                  <AlertDescription>
+                    <p>Please verify your age and try again.</p>
+                    <ul className="list-inside list-disc text-sm">
+                      {formErrors.map((error) => (
+                        <li key={error as never as string}>{error}</li>
+                      ))}
+                    </ul>
+                  </AlertDescription>
+                </Alert>
+              )}
               <form.Field
-                name="title"
+                name="age"
                 children={(field) => {
                   const isInvalid =
                     field.state.meta.isTouched && !field.state.meta.isValid
                   return (
                     <Field data-invalid={isInvalid}>
-                      <FieldLabel htmlFor={field.name}>Bug Title</FieldLabel>
+                      <FieldLabel htmlFor={field.name}>Age</FieldLabel>
                       <Input
                         id={field.name}
                         name={field.name}
+                        type="number"
                         value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
+                        // onBlur={field.handleBlur}
+                        onChange={(e) =>
+                          field.handleChange(e.target.valueAsNumber)
+                        }
                         aria-invalid={isInvalid}
-                        placeholder="Login button not working on mobile"
-                        autoComplete="off"
                       />
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />
@@ -126,7 +153,7 @@ function RouteComponent() {
                   )
                 }}
               />
-              <form.Field
+              {/* <form.Field
                 name="description"
                 children={(field) => {
                   const isInvalid =
@@ -162,7 +189,7 @@ function RouteComponent() {
                     </Field>
                   )
                 }}
-              />
+              /> */}
             </FieldGroup>
           </form>
         </CardContent>
@@ -175,7 +202,7 @@ function RouteComponent() {
             >
               Reset
             </Button>
-            <Button type="submit" form="bug-report-form">
+            <Button type="submit" form="age-check-form">
               Submit
             </Button>
           </Field>
