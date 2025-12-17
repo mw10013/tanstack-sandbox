@@ -73,7 +73,7 @@ export const handleForm = createServerFn({
 
 export const getFormDataFromServer = createServerFn().handler(getFormData)
 
-export const Route = createFileRoute('/_layout/form1')({
+export const Route = createFileRoute('/_layout/form2')({
   component: RouteComponent,
   loader: async () => ({
     state: await getFormDataFromServer(),
@@ -92,19 +92,26 @@ function RouteComponent() {
 
   return (
     <div className="p-6">
-      <form id="age-check-form" action={handleForm.url} method="post">
+      <form
+        id="age-check-form"
+        action={handleForm.url}
+        method="post"
+        // onSubmit={(e) => {
+        //   form.handleSubmit(e)
+        // }}
+      >
         <Card className="w-full sm:max-w-md mx-auto">
           <CardHeader>
             <CardTitle>Age Check</CardTitle>
             <CardDescription className="grid gap-2">
               We need to check your age before you can proceed.
-              {/* <pre>
-              {JSON.stringify(
-                { action: handleForm.url, formErrors, state },
-                null,
-                2,
-              )}
-            </pre> */}
+              <pre>
+                {JSON.stringify(
+                  { action: handleForm.url, formErrors, state },
+                  null,
+                  2,
+                )}
+              </pre>
             </CardDescription>
           </CardHeader>
           <CardContent>

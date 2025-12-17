@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout.index'
+import { Route as LayoutForm2RouteImport } from './routes/_layout.form2'
 import { Route as LayoutForm1RouteImport } from './routes/_layout.form1'
 import { Route as LayoutFormRouteImport } from './routes/_layout.form'
 import { Route as LayoutExampleRouteImport } from './routes/_layout.example'
@@ -22,6 +23,11 @@ const LayoutRoute = LayoutRouteImport.update({
 const LayoutIndexRoute = LayoutIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutForm2Route = LayoutForm2RouteImport.update({
+  id: '/form2',
+  path: '/form2',
   getParentRoute: () => LayoutRoute,
 } as any)
 const LayoutForm1Route = LayoutForm1RouteImport.update({
@@ -44,12 +50,14 @@ export interface FileRoutesByFullPath {
   '/example': typeof LayoutExampleRoute
   '/form': typeof LayoutFormRoute
   '/form1': typeof LayoutForm1Route
+  '/form2': typeof LayoutForm2Route
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesByTo {
   '/example': typeof LayoutExampleRoute
   '/form': typeof LayoutFormRoute
   '/form1': typeof LayoutForm1Route
+  '/form2': typeof LayoutForm2Route
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesById {
@@ -58,19 +66,21 @@ export interface FileRoutesById {
   '/_layout/example': typeof LayoutExampleRoute
   '/_layout/form': typeof LayoutFormRoute
   '/_layout/form1': typeof LayoutForm1Route
+  '/_layout/form2': typeof LayoutForm2Route
   '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/example' | '/form' | '/form1' | '/'
+  fullPaths: '/example' | '/form' | '/form1' | '/form2' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/example' | '/form' | '/form1' | '/'
+  to: '/example' | '/form' | '/form1' | '/form2' | '/'
   id:
     | '__root__'
     | '/_layout'
     | '/_layout/example'
     | '/_layout/form'
     | '/_layout/form1'
+    | '/_layout/form2'
     | '/_layout/'
   fileRoutesById: FileRoutesById
 }
@@ -92,6 +102,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof LayoutIndexRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/form2': {
+      id: '/_layout/form2'
+      path: '/form2'
+      fullPath: '/form2'
+      preLoaderRoute: typeof LayoutForm2RouteImport
       parentRoute: typeof LayoutRoute
     }
     '/_layout/form1': {
@@ -122,6 +139,7 @@ interface LayoutRouteChildren {
   LayoutExampleRoute: typeof LayoutExampleRoute
   LayoutFormRoute: typeof LayoutFormRoute
   LayoutForm1Route: typeof LayoutForm1Route
+  LayoutForm2Route: typeof LayoutForm2Route
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
@@ -129,6 +147,7 @@ const LayoutRouteChildren: LayoutRouteChildren = {
   LayoutExampleRoute: LayoutExampleRoute,
   LayoutFormRoute: LayoutFormRoute,
   LayoutForm1Route: LayoutForm1Route,
+  LayoutForm2Route: LayoutForm2Route,
   LayoutIndexRoute: LayoutIndexRoute,
 }
 
