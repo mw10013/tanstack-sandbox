@@ -1,5 +1,4 @@
 'use client'
-
 import { createFileRoute } from '@tanstack/react-router'
 import { mergeForm, useForm, useStore } from '@tanstack/react-form'
 import { createServerFn } from '@tanstack/react-start'
@@ -57,6 +56,9 @@ export const handleForm = createServerFn({
   })
   .handler(async (ctx) => {
     try {
+      // Delay for 5 seconds
+      // await new Promise((resolve) => setTimeout(resolve, 5000))
+
       const validatedData = await serverValidate(ctx.data)
       console.log('validatedData', validatedData)
     } catch (e) {
@@ -155,18 +157,36 @@ function RouteComponent() {
             </FieldGroup>
           </CardContent>
           <CardFooter>
-            <Field orientation="horizontal">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => form.reset()}
-              >
-                Reset
-              </Button>
-              <Button type="submit" form="age-check-form">
-                Submit
-              </Button>
-            </Field>
+            {/* 
+              Note: Using form.Subscribe with isSubmitting here won't work as intended
+              because HTML form submissions (via action/method) bypass TanStack Form's
+              handleSubmit(), so isSubmitting never updates. For isSubmitting to change,
+              we must use programmatic submission with form.handleSubmit().
+            */}
+            <form.Subscribe
+              selector={(formState) => [
+                formState.canSubmit,
+                formState.isSubmitting,
+              ]}
+            >
+              {([canSubmit, isSubmitting]) => (
+                <>
+                  <Field orientation="horizontal">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      disabled={!canSubmit}
+                      onClick={() => form.reset()}
+                    >
+                      Reset
+                    </Button>
+                    <Button type="submit" disabled={isSubmitting}>
+                      {isSubmitting ? '...' : 'Submit'}
+                    </Button>
+                  </Field>
+                </>
+              )}
+            </form.Subscribe>
           </CardFooter>
         </Card>
       </form>
