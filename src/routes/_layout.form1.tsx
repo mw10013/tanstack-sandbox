@@ -91,27 +91,27 @@ function RouteComponent() {
 
   return (
     <div className="p-6">
-      <Card className="w-full sm:max-w-md mx-auto">
-        <CardHeader>
-          <CardTitle>Age Check</CardTitle>
-          <CardDescription className="grid gap-2">
-            We need to check your age before you can proceed.
-            {/* <pre>
+      <form
+        id="age-check-form"
+        action={handleForm.url}
+        method="post"
+        encType={'multipart/form-data'}
+      >
+        <Card className="w-full sm:max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle>Age Check</CardTitle>
+            <CardDescription className="grid gap-2">
+              We need to check your age before you can proceed.
+              {/* <pre>
               {JSON.stringify(
                 { action: handleForm.url, formErrors, state },
                 null,
                 2,
               )}
             </pre> */}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form
-            id="age-check-form"
-            action={handleForm.url}
-            method="post"
-            encType={'multipart/form-data'}
-          >
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <FieldGroup>
               {formErrors.length > 0 && (
                 <Alert variant="destructive">
@@ -153,23 +153,23 @@ function RouteComponent() {
                 }}
               />
             </FieldGroup>
-          </form>
-        </CardContent>
-        <CardFooter>
-          <Field orientation="horizontal">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => form.reset()}
-            >
-              Reset
-            </Button>
-            <Button type="submit" form="age-check-form">
-              Submit
-            </Button>
-          </Field>
-        </CardFooter>
-      </Card>
+          </CardContent>
+          <CardFooter>
+            <Field orientation="horizontal">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => form.reset()}
+              >
+                Reset
+              </Button>
+              <Button type="submit" form="age-check-form">
+                Submit
+              </Button>
+            </Field>
+          </CardFooter>
+        </Card>
+      </form>
     </div>
   )
 }
