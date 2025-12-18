@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a sandbox project for experimenting with TanStack libraries (Router, Query, Form, Start) integrated with shadcn/ui components using BAse UI, built using Vite, React 19, TypeScript, and Tailwind CSS v4.
+This is a sandbox project for experimenting with TanStack libraries (Router, Query, Form, Start) on Cloudflare Workers integrated with shadcn/ui components using Base UI, built using Vite, React 19, TypeScript, and Tailwind CSS v4.
 
 - Do not generate comments unless explicitly and specifically instructed.
 - Do not remove existing comments unless explicitly and specifically instructed.
@@ -13,7 +13,7 @@ This is a sandbox project for experimenting with TanStack libraries (Router, Que
 - **Routing**: File-based routing with TanStack Router. Routes defined in `src/routes/` with generated `routeTree.gen.ts`.
 - **Components**: UI components from shadcn/ui in `src/components/ui/`, custom components in `src/components/`.
 - **Styling**: Tailwind CSS with custom CSS variables, utilities in `src/lib/utils.ts` using `cn()` for class merging.
-- **Build**: Vite with TanStack Start plugin for SSR/full-stack, Nitro for server-side rendering.
+- **Build**: Vite with TanStack Start plugin for SSR/full-stack.
 - **Refs**: Downloaded source code of TanStack libraries, shadcn, and Base UI in `refs/` for reference.
 
 ### Reference Docs Locations
