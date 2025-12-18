@@ -1,5 +1,5 @@
 'use client'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { mergeForm, useForm, useStore } from '@tanstack/react-form'
 import { createServerFn } from '@tanstack/react-start'
 import {
@@ -56,7 +56,7 @@ export const handleForm = createServerFn({
   })
   .handler(async (ctx) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 3000))
+      // await new Promise((resolve) => setTimeout(resolve, 3000))
 
       console.log('handleForm.handler: will serverValidate')
       await serverValidate(ctx.data)
@@ -68,12 +68,14 @@ export const handleForm = createServerFn({
         console.log(`handleForm.handler: ServerValidateError: ${e.message}`)
         return e.response
       }
-      console.error(`handleForm.handler: error: ${e instanceof Error ? e.message : e}`)
+      console.error(
+        `handleForm.handler: error: ${e instanceof Error ? e.message : e}`,
+      )
       setResponseStatus(500)
       return 'There was an internal error'
     }
     console.log(`handleForm.handler: success`)
-    return 'Form has validated successfully'
+    throw redirect({ to: '/form2' })
   })
 
 export const getFormDataFromServer = createServerFn().handler(getFormData)
