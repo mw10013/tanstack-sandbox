@@ -38,7 +38,8 @@ This is a sandbox project for experimenting with TanStack libraries (Router, Que
 - **Dev**: `pnpm dev` starts Vite dev server on port 3000.
 - **Build**: `pnpm build` for production build.
 - **Test**: `pnpm test` runs Vitest.
-- **Lint/Format**: `pnpm lint` for ESLint, `pnpm format` for Prettier, `pnpm check` for both.
+- **Type Check**: `pnpm typecheck` runs TypeScript compiler in build mode. Use this to check generated code.
+- **Lint**: `pnpm lint` for ESLint.
 - **Refs**: `pnpm refs:*` downloads library sources to `refs/` for inspection (e.g., `pnpm refs:tan-router`).
 
 ## Conventions
@@ -52,7 +53,7 @@ This is a sandbox project for experimenting with TanStack libraries (Router, Que
 
 - TanStack Start: Full-stack framework with SSR.
 - Shadcn/ui: Base-vega style, CSS variables in `src/styles.css`.
-  - Using Shadcn/ui with Base UI instead of Radix UI. 
+  - Using Shadcn/ui with Base UI instead of Radix UI.
   - Since Base UI does not support `asChild`, use its `render` prop instead.
 - External deps: Lucide icons, date-fns, recharts, etc.
 
@@ -67,4 +68,3 @@ Reference: `package.json` for scripts, `vite.config.ts` for build config, `compo
 - **Do not add any comments to generated code.** Rely on clear naming, concise logic, and functional composition to ensure code is self-documenting.
 - Employ a concise and dense coding style. Prefer inlining expressions, function composition (e.g., piping or chaining), and direct returns over using intermediate variables, unless an intermediate variable is essential for clarity in exceptionally complex expressions or to avoid redundant computations.
 - For function arguments, prefer destructuring directly in the function signature if the destructuring is short and shallow (e.g., `({ data: { value }, otherArg })`). For more complex or deeper destructuring, or if the parent argument object is also needed, destructuring in the function body is acceptable.
-
