@@ -56,13 +56,9 @@ export const handleForm = createServerFn({
   })
   .handler(async (ctx) => {
     try {
-      // await new Promise((resolve) => setTimeout(resolve, 3000))
-
       console.log('handleForm.handler: will serverValidate')
       await serverValidate(ctx.data)
       console.log('handleForm.handler: did serverValidate')
-      // const validatedData = await serverValidate(ctx.data)
-      // console.log('validatedData', validatedData)
     } catch (e) {
       if (e instanceof ServerValidateError) {
         console.log(`handleForm.handler: ServerValidateError: ${e.message}`)
