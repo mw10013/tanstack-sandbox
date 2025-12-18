@@ -58,16 +58,21 @@ export const handleForm = createServerFn({
     try {
       await new Promise((resolve) => setTimeout(resolve, 3000))
 
-      const validatedData = await serverValidate(ctx.data)
-      console.log('validatedData', validatedData)
+      console.log('handleForm.handler: will serverValidate')
+      await serverValidate(ctx.data)
+      console.log('handleForm.handler: did serverValidate')
+      // const validatedData = await serverValidate(ctx.data)
+      // console.log('validatedData', validatedData)
     } catch (e) {
       if (e instanceof ServerValidateError) {
+        console.log(`handleForm.handler: ServerValidateError: ${e.message}`)
         return e.response
       }
-      console.error(e)
+      console.error(`handleForm.handler: error: ${e instanceof Error ? e.message : e}`)
       setResponseStatus(500)
       return 'There was an internal error'
     }
+    console.log(`handleForm.handler: success`)
     return 'Form has validated successfully'
   })
 
@@ -75,9 +80,13 @@ export const getFormDataFromServer = createServerFn().handler(getFormData)
 
 export const Route = createFileRoute('/_layout/form2')({
   component: RouteComponent,
-  loader: async () => ({
-    state: await getFormDataFromServer(),
-  }),
+  loader: async () => {
+    console.log(`loader`)
+    const data = await getFormDataFromServer()
+    return {
+      state: data,
+    }
+  },
 })
 
 function RouteComponent() {
