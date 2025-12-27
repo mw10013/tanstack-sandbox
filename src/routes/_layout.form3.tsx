@@ -27,7 +27,9 @@ const schema = z.object({
 export const action = createServerFn({
   method: 'POST',
 })
-  .inputValidator((data: unknown) => data)
+  // Declare input types for the client/server fn call, but keep validation in the handler
+  // so we can return a TanStack Form-compatible errorMap instead of throwing.
+  .inputValidator((data: z.input<typeof schema>) => data)
   .handler(({ data }) => {
     const parseResult = schema.safeParse(data)
     console.log(
@@ -64,9 +66,11 @@ function RouteComponent() {
     },
     onSubmit: async ({ value }) => {
       console.log(`onSubmit: value: ${JSON.stringify(value)}`)
-
       const result = await callAction({ data: value })
       console.log(`action result: ${JSON.stringify(result)}`)
+      if (!result.success) {
+        form.setErrorMap(result.errorMap)
+      }
     },
   })
 
@@ -136,7 +140,7 @@ function RouteComponent() {
                     <Button
                       type="button"
                       variant="outline"
-                      disabled={!canSubmit}
+                      disabled={isSubmitting}
                       onClick={() => form.reset()}
                     >
                       Reset
