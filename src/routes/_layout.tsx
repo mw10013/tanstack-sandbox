@@ -63,6 +63,12 @@ function Layout() {
                       render={<Link to="/form2">Form 2</Link>}
                     />
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <SidebarMenuButton
+                      isActive={Boolean(matchRoute({ to: '/form3' }))}
+                      render={<Link to="/form3">Form 3</Link>}
+                    />
+                  </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarGroupContent>
             </SidebarGroup>
