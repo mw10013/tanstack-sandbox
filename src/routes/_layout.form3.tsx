@@ -122,12 +122,6 @@ function RouteComponent() {
             </FieldGroup>
           </CardContent>
           <CardFooter>
-            {/* 
-              Note: Using form.Subscribe with isSubmitting here won't work as intended
-              because HTML form submissions (via action/method) bypass TanStack Form's
-              handleSubmit(), so isSubmitting never updates. For isSubmitting to change,
-              we must use programmatic submission with form.handleSubmit().
-            */}
             <form.Subscribe
               selector={(formState) => [
                 formState.canSubmit,
