@@ -14,7 +14,7 @@ This is a sandbox project for experimenting with TanStack libraries (Router, Que
 - **Components**: UI components from shadcn/ui in `src/components/ui/`, custom components in `src/components/`.
 - **Styling**: Tailwind CSS with custom CSS variables, utilities in `src/lib/utils.ts` using `cn()` for class merging.
 - **Build**: Vite with TanStack Start plugin for SSR/full-stack.
-- **Refs**: Downloaded source code of TanStack libraries, shadcn, and Base UI in `refs/` for reference.
+- **Refs**: Downloaded source code of TanStack libraries, shadcn, and Base UI in `refs/` for reference. Also contains Cloudflare React Router BUI SaaS repo (crrbuis) for reference since we want to port some of that functionality over.
 
 ### Reference Docs Locations
 
